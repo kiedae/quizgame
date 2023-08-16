@@ -1,6 +1,7 @@
 var startquiz = document.querySelector("#startbutton");
 var quizTimer = document.getElementById("timeleft");
 var secondsLeft = 45;
+var score = 0;
 // holds the questions thier choices and correct answer
 var questions = [
 
@@ -36,25 +37,52 @@ var currentQuestionIndex = 0;
 startquiz.addEventListener("click", function() {
    //hides the startbutton once the quiz is started
   startquiz.style.display = "none";
-    //will start the quiz eventually
-  //  quiz()
-timerClock();
 
+timerClock();
+// Starts the quiz, displays the first question within questions variable
+displayQuestion();
 });
 
 function timerClock() {
     var timer = setInterval(function() {
-    secondsLeft--;
+    //subtracts 1 second from secondsLeft 
+      secondsLeft--;
+      //Shows user how much time is left on quiz
     quizTimer.textContent = secondsLeft + " seconds left until your quiz is over.";
 
     
-
+//when the secondsLeft variable is 0 stop the function
      if(secondsLeft == 0) {
          clearInterval(timer);
          quizTimer.textContent = "Time's up!";
     }
     //repeats the function every 1 second
   }, 1000);
+}
+
+function displayQuestion() {
+  // targets the element that will display the current question
+  var questionTextElement = document.getElementById("questiontext");
+  //targets the answer buttons which will allow the buttons to be created for each question
+  var answerButtons = document.getElementById("answerbuttons");
+
+  // shows the current question
+  questionTextElement.textContent = questions[currentQuestionIndex].question;
+
+  // clears the buttons from previous question
+  answerButtons.innerHTML = "";
+
+  // creates and displays the current answer buttons for current question
+  questions[currentQuestionIndex].choices.forEach(function(choice, index) {
+    var button = document.createElement("button");
+    button.textContent = choice;
+    button.addEventListener("click", function() {
+      //checks which button the user pressed
+      checkAnswer(index);
+    });
+    // adds the created buttons to the HTML
+    answerButtons.appendChild(button);
+  });
 }
 
 
