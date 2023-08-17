@@ -1,9 +1,12 @@
 var startquiz = document.querySelector("#startbutton");
 var quizTimer = document.getElementById("timeleft");
 var playerscore = document.getElementById("score");
-var secondsLeft = 45;
+var secondsLeft = 5;
 var score = 0;
+var endScreen = document.getElementById("end-quiz");
+var entireQuiz = document.getElementById("Quiz");
 // holds the questions thier choices and correct answer
+console.log(secondsLeft);
 var questions = [
 
  { question: "What language can we use to create a simple webpage?",
@@ -58,56 +61,92 @@ playerscore.textContent = "Score: " + score;
      if(secondsLeft == 0) {
          clearInterval(timer);
          quizTimer.textContent = "Time's up!";
+         secondsLeft = 0;
+         changeOver();
     }
+   console.log(secondsLeft);
     //repeats the function every 1 second
   }, 1000);
 }
 
 function displayQuestion() {
-  // targets the element that will display the current question
   var questionTextElement = document.getElementById("questiontext");
-  //targets the answer buttons which will allow the buttons to be created for each question
   var answerButtons = document.getElementById("answerbuttons");
+  var saveScoreButton = document.getElementById("save-score");
 
-  // shows the current question
-  questionTextElement.textContent = questions[currentQuestionIndex].question;
+  if (currentQuestionIndex < questions.length) {
+    var currentQuestion = questions[currentQuestionIndex];
+    questionTextElement.textContent = currentQuestion.question;
 
-  // clears the buttons from previous question
-  answerButtons.innerHTML = "";
+    answerButtons.innerHTML = "";
 
-  // creates and displays the current answer buttons for current question
-  questions[currentQuestionIndex].choices.forEach(function(choice, index) {
-    var button = document.createElement("button");
-    button.textContent = choice;
-    button.addEventListener("click", function() {
-      //checks which button the user pressed
-      checkAnswer(index);
+    currentQuestion.choices.forEach(function (choice, index) {
+      var button = document.createElement("button");
+      button.textContent = choice;
+      button.addEventListener("click", function () {
+        checkAnswer(index);
+      });
+      answerButtons.appendChild(button);
     });
-    // adds the created buttons to the HTML
-    answerButtons.appendChild(button);
-  });
+
+    saveScoreButton.style.display = "none";
+  } else {
+    answerButtons.innerHTML = "";
+    saveScoreButton.style.display = "block";
+    questionTextElement.textContent = "";
+    changeOver();
+  }
 }
 
+//function to check users answer 
 function checkAnswer(selectedIndex) {
   var correctIndex = questions[currentQuestionIndex].correctAnswerIndex;
 
   if (selectedIndex === correctIndex) {
- // adds score and time if correct answer
-    score+=5;
-    secondsLeft+=5;
+    score += 5;
+    secondsLeft += 5;
   } else {
-//subtracts score and time if wrong answer
-    score-=5;
-secondsLeft-=5;
+    score -= 5;
+    secondsLeft -= 5;
   }
-
-  currentQuestionIndex++;
 
   if (currentQuestionIndex < questions.length) {
-    displayQuestion(); // Move to the next question
+    currentQuestionIndex++;
+    displayQuestion();
   } else {
-    // will eventually end quiz
+    showEndOfQuizScreen(score);
+    changeOver();
   }
 }
+
+function showEndOfQuizScreen(score) {
+  var endQuizScreen = document.getElementById("end-quiz");
+  var finalScoreElement = document.getElementById("final-score");
+  finalScoreElement.textContent = score;
+
+  endQuizScreen.classList.remove("hidden");
+}
+
+var saveScoreButton = document.getElementById("save-score");
+var initialsInput = document.getElementById("initials");
+
+saveScoreButton.addEventListener("click", function() {
+  var initials = initialsInput.value;
+
+  if (initials && score) {
+    // Save initials and score to local storage
+    // Use appropriate keys to distinguish different entries
+  }
+});
+
+function changeOver() {
+//removes the quiz timer and shows end screen
+  quizTimer.style.display = "none";
+endScreen.style.display = "inline-block";
+entireQuiz.style.display = "none";
+document.getElementById("final-score").textContent = score;
+}
+
+
 
 

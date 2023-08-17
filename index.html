@@ -12,27 +12,31 @@
    
     <div class="start">
         <button class="startbutton" id="startbutton">Begin Quiz!</button>
- </div>
+    </div>
+    <div id="Quiz">
     <div>
-        <h3 id="timeleft"></h3>
-    </div>
-    <div class="score-div">
-        <h3 id="score"></h3>
-    </div>
+    <h3 id="timeleft"></h3>
+</div>
+<div class="score-div">
+    <h3 id="score"></h3>
+</div>
 
     <div class="questiondiv">
         <h2 class="question" id="questiontext"></h2>
-    </div>    
+    </div> 
     
 
-<ul class="answer-list">
-    <div class="answerbuttons" id="answerbuttons"></div>
-
-    
-
-
-
-</ul>
+    <ul class="answer-list">
+        <div class="answerbuttons" id="answerbuttons"></div>
+    </ul>
+</div>
+<div id="end-quiz" class="hidden">
+    <h2>Quiz Over!</h2>
+    <p>Your final score is: <span id="final-score"></span></p>
+    <label for="initials">Enter your initials:</label>
+    <input type="text" id="initials" maxlength="3">
+    <button id="save-score">Save Score</button>
+</div>
 
 
 <script src="./assets/script.js"></script>

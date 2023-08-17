@@ -2,3 +2,7 @@ header {
     text-align: center;
     
 }
+
+#end-quiz {
+  display: none;
+}
