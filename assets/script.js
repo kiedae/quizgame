@@ -134,8 +134,8 @@ saveScoreButton.addEventListener("click", function() {
   var initials = initialsInput.value;
 
   if (initials && score) {
-    // Save initials and score to local storage
-    // Use appropriate keys to distinguish different entries
+    // TODO Save initials and score to local storage
+  
   }
 });
 
